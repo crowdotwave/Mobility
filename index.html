@@ -1,9 +1,10 @@
+title: Clay's Mobility Routine:index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Mobility Routine</title>
+    <title>Clay's Mobility Routine</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -12,196 +13,299 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans selection:bg-emerald-500 selection:text-white">
+<body class="bg-gray-950 text-gray-100 font-sans selection:bg-emerald-500 selection:text-white pb-12">
 
-    <header class="border-b border-gray-800 bg-gray-950 sticky top-0 z-50 backdrop-blur-md bg-opacity-80">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <!-- Header & Brand -->
+    <header class="border-b border-gray-800 bg-gray-950/90 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
-                <div class="p-2 bg-emerald-500 rounded-lg text-gray-950 font-bold text-xl shadow-lg shadow-emerald-500/20">
-                    <i class="fa-solid fa-dumbbell"></i>
+                <div class="p-2.5 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-xl text-gray-950 font-black text-xl shadow-lg shadow-emerald-500/10">
+                    <i class="fa-solid fa-bolt"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-black tracking-tight text-white">MOBILITY LAB</h1>
-                    <p class="text-xs text-gray-400">Your Daily Interactive Flow</p>
+                    <h1 class="text-xl font-black tracking-wider text-white uppercase">CLAY'S MOBILITY ROUTINE</h1>
+                    <p class="text-xs text-emerald-400 font-mono tracking-widest uppercase">Performance & Joint Longevity</p>
                 </div>
             </div>
             
-            <div id="timer-box" class="flex items-center gap-4 bg-gray-900 border border-gray-800 px-4 py-2 rounded-xl">
-                <div class="text-right">
-                    <p class="text-xs text-gray-400 font-medium">STRETCH TIMER</p>
-                    <p id="timer-display" class="text-lg font-mono font-bold text-emerald-400">00:45</p>
-                </div>
-                <div class="flex gap-2">
-                    <button id="timer-btn" onclick="toggleTimer()" class="p-2 bg-emerald-500 hover:bg-emerald-400 text-gray-950 rounded-lg transition-colors text-sm font-bold">
-                        <i id="timer-icon" class="fa-solid fa-play"></i>
-                    </button>
-                    <button onclick="resetTimer()" class="p-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition-colors text-sm">
-                        <i class="fa-solid fa-rotate-left"></i>
-                    </button>
-                </div>
+            <!-- Quick Reset & Session Control -->
+            <div class="flex items-center gap-2">
+                <button onclick="resetSession()" class="text-xs bg-gray-900 hover:bg-gray-800 border border-gray-800 hover:border-gray-700 px-3 py-2 rounded-lg text-gray-400 hover:text-white transition-all flex items-center gap-1.5 font-medium">
+                    <i class="fa-solid fa-arrows-rotate"></i> Reset Stretches
+                </button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-8">
+    <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
         
-        <div class="mb-8 p-6 bg-gradient-to-r from-gray-950 to-gray-900 border border-gray-800 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-                <h2 class="text-2xl font-bold text-white mb-1">Interactive Mobility Matrix</h2>
-                <p class="text-gray-400 text-sm max-w-xl">Click the cards to mark movements complete, tap <span class="text-emerald-400">Watch Clip</span> to study form, or use the top timer to pace your sets.</p>
-            </div>
-            <div class="bg-gray-900 border border-gray-800 p-3 rounded-xl flex items-center gap-3 self-stretch md:self-auto justify-center">
-                <span class="text-sm font-medium text-gray-300">Progress:</span>
-                <div class="w-32 bg-gray-800 rounded-full h-2.5 overflow-hidden">
-                    <div id="progress-bar" class="bg-emerald-500 h-2.5 transition-all duration-300" style="width: 0%"></div>
+        <!-- Interactive Dashboard Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Dynamic Timer Box (Changeable length) -->
+            <div class="bg-gray-900/60 border border-gray-800/80 p-5 rounded-2xl flex flex-col justify-between space-y-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-sm font-bold uppercase tracking-wider text-gray-400">Pacing Timer</h2>
+                        <p class="text-xs text-gray-500">Tap time to enter custom seconds</p>
+                    </div>
+                    <div class="flex items-center gap-1 bg-gray-950 px-2 py-1 rounded-lg border border-gray-850">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span class="text-[10px] font-mono text-emerald-400 uppercase">Active</span>
+                    </div>
                 </div>
-                <span id="progress-text" class="text-xs font-mono text-emerald-400">0/18</span>
+
+                <!-- Clock Display & Adjustments -->
+                <div class="flex items-center justify-center gap-4 py-2">
+                    <button onclick="adjustTimer(-15)" class="w-10 h-10 rounded-xl bg-gray-800 hover:bg-gray-750 border border-gray-700/50 flex items-center justify-center text-sm font-bold text-gray-300 transition-all active:scale-95">
+                        -15s
+                    </button>
+                    
+                    <div class="text-center relative group">
+                        <input id="timer-input" type="number" value="45" min="1" max="999" onchange="manualTimerChange(this.value)" class="text-4xl font-mono font-black text-white bg-transparent text-center w-24 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 rounded-lg py-1 border border-transparent hover:border-gray-800 transition-all cursor-pointer" title="Click to type custom seconds">
+                        <span class="block text-[10px] text-gray-500 font-mono">seconds</span>
+                    </div>
+
+                    <button onclick="adjustTimer(15)" class="w-10 h-10 rounded-xl bg-gray-800 hover:bg-gray-750 border border-gray-700/50 flex items-center justify-center text-sm font-bold text-gray-300 transition-all active:scale-95">
+                        +15s
+                    </button>
+                </div>
+
+                <!-- Play/Pause Controls -->
+                <div class="flex gap-2">
+                    <button id="timer-btn" onclick="toggleTimer()" class="flex-1 py-3 bg-emerald-500 hover:bg-emerald-400 text-gray-950 font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/10 flex items-center justify-center gap-2 text-sm active:scale-[0.98]">
+                        <i id="timer-icon" class="fa-solid fa-play"></i> <span id="timer-btn-text">Start Set</span>
+                    </button>
+                    <button onclick="resetTimer()" class="px-4 py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl transition-colors text-sm" title="Reset current clock">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Calendar & Habit Tracker -->
+            <div class="lg:col-span-2 bg-gray-900/60 border border-gray-800/80 p-5 rounded-2xl flex flex-col justify-between space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <h2 class="text-sm font-bold uppercase tracking-wider text-gray-400">Habit Tracker</h2>
+                        <p class="text-xs text-gray-500">Tap dates to manually log or mark completed sessions</p>
+                    </div>
+                    
+                    <!-- Stats Badges -->
+                    <div class="flex gap-3 text-xs">
+                        <div class="bg-gray-950 px-3 py-1.5 rounded-lg border border-gray-800 flex items-center gap-1.5">
+                            <i class="fa-solid fa-fire text-amber-500"></i>
+                            <span class="text-gray-400">Streak:</span>
+                            <span id="streak-count" class="font-bold text-white font-mono">0 days</span>
+                        </div>
+                        <button onclick="logToday()" class="bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-lg font-bold transition-all active:scale-95">
+                            <i class="fa-solid fa-calendar-check"></i> Log Today
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Calendar Month View Container -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-xs text-gray-400 font-mono px-1">
+                        <span id="calendar-month-name" class="font-bold text-gray-200">June 2026</span>
+                        <div class="flex gap-2">
+                            <button onclick="changeMonth(-1)" class="hover:text-white px-1"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button onclick="changeMonth(1)" class="hover:text-white px-1"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Calendar Grid -->
+                    <div>
+                        <!-- Days of week labels -->
+                        <div class="grid grid-cols-7 text-center text-[10px] text-gray-500 font-semibold mb-1">
+                            <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+                        </div>
+                        <!-- Dates grid -->
+                        <div id="calendar-grid" class="grid grid-cols-7 gap-1">
+                            <!-- Injected by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Progress Tracker Bar -->
+        <div class="p-5 bg-gradient-to-r from-gray-950 to-gray-900 border border-gray-800/80 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="w-full sm:w-auto">
+                <h3 class="text-sm font-bold text-gray-300">Routine Progress Tracker</h3>
+                <p class="text-xs text-gray-500">Mark off each stretch card as you flow through them.</p>
+            </div>
+            <div class="w-full sm:flex-1 max-w-md flex items-center gap-3">
+                <div class="flex-1 bg-gray-800 rounded-full h-3 overflow-hidden border border-gray-700/30">
+                    <div id="progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <span id="progress-text" class="text-xs font-mono font-bold text-emerald-400 min-w-[45px] text-right">0/18</span>
             </div>
         </div>
 
+        <!-- Stretch Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="stretch-grid">
-            </div>
+            <!-- Dynamic Cards Injected by JavaScript -->
+        </div>
+
     </main>
 
-    <footer class="border-t border-gray-800 bg-gray-950 mt-20 py-6 text-center text-xs text-gray-500">
-        <p>Interactive Stretch Dashboard • Custom Routine Framework</p>
+    <footer class="border-t border-gray-900 bg-gray-950 mt-16 py-8 text-center text-xs text-gray-600 space-y-2">
+        <p class="font-mono text-emerald-500/60">CLAY'S MOBILITY SYSTEM v2.0</p>
+        <p>Interactive Session Planner & Persistent Habit Calendar • Powered by localStorage</p>
     </footer>
 
+    <!-- Complete App Logic & State Persistence -->
     <script>
+        // Stretch Database
         const stretches = [
             {
                 id: 1,
                 name: "World's Greatest Stretch (WGS) Combo",
-                tags: ["Full Body", "Hips", "Thoracic"],
-                notes: "First clip demonstrates base. Combine movements from both clips to optimize.",
+                tags: ["Full Body", "Hips", "Thoracic Spine"],
+                notes: "First clip shows standard base. Blend movements from both links to access maximum joint workspace benefits.",
                 links: ["https://www.instagram.com/reel/DUPy40dDLyr/?igsh=ZGM0ZjVmY240c2Jz", "https://www.instagram.com/p/DLAiNFsMvP_/?igsh=dGV2MHgxNmxwNWJu"]
             },
             {
                 id: 2,
                 name: "Lateral Kneeling Lunge",
-                tags: ["Adductors", "Kneeling"],
-                notes: "Combine this movement with a reach up toward the ceiling.",
+                tags: ["Adductors", "Ankles", "Groin"],
+                notes: "Adopt a wide kneeling split stance. Blend this lateral lunge setup with an active reach-up sequence towards the ceiling.",
                 links: ["https://www.instagram.com/p/DVWcDwngXW9/?igsh=MXFhbDR6Y2Z2bjRkNA=="]
             },
             {
                 id: 3,
                 name: "90/90 Heel Clicks",
-                tags: ["90/90 Position", "Hips", "Active"],
-                notes: "First clip of the sequence. Keep torso tall and stable.",
+                tags: ["Hips", "Internal Rotation", "Active"],
+                notes: "Adopt an absolute 90/90 sit. Keep your torso highly braced, pivot from hip joints, and lift/click heels without tipping torso.",
                 links: ["https://www.instagram.com/p/DTVguRelScb/?igsh=bngyZHAxdDA4aDg4"]
             },
             {
                 id: 4,
                 name: "Straight Leg Contour",
-                tags: ["Hamstrings", "Active Isolation"],
-                notes: "Second clip in the sequence. Focus on a smooth tracking line.",
+                tags: ["Hamstrings", "Nerve Flossing"],
+                notes: "Focus on isolating posterior line stiffness. Track a perfect leg extension line and flossing route smoothly.",
                 links: ["https://www.instagram.com/p/DTVguRelScb/?img_index=1&igsh=bngyZHAxdDA4aDg4"]
             },
             {
                 id: 5,
                 name: "90/90 Internal Rotation (Heel Lift)",
-                tags: ["90/90 Position", "Internal Rotation"],
-                notes: "Second clip in this video. Keep opposite hip pinned to floor if possible.",
+                tags: ["Hips", "Internal Rotation"],
+                notes: "From 90/90 base posture, rotate from the back hip socket to isolate and raise the rear heel off the ground.",
                 links: ["https://www.instagram.com/reel/DUh1GmwjJl9/?igsh=MWz0NHl0MDJ4MXd1aw=="]
             },
             {
                 id: 6,
                 name: "90/90 Extend Front & Back Leg",
-                tags: ["90/90 Position", "Knee Extension"],
-                notes: "First clip shows back leg extension. Perform same pattern with front leg.",
+                tags: ["Knee Extensions", "Isometrics"],
+                notes: "Extend the rear leg outward dynamically as shown in clip, then run the exact same leg extension process on the front leg.",
                 links: ["https://www.instagram.com/reel/DQU1OwHEWqi/?igsh=MWljZTg3OWJpbDVqcg=="]
             },
             {
                 id: 7,
                 name: "Single Leg Hip Hurdles",
-                tags: ["Hips", "Active Control"],
-                notes: "4th clip. Use a yoga block or a water bottle to hurdle over.",
+                tags: ["Hip Flexion", "Psoas", "Control"],
+                notes: "Anchor a water bottle or yoga block vertically. Lift and articulate the leg neatly up and over the hurdle object.",
                 links: ["https://www.instagram.com/p/DTsq_Z_CGhU/?img_index=3&igsh=cm52bngxcHkxOHpt"]
             },
             {
                 id: 8,
                 name: "Side Lay Hip CARs",
-                tags: ["Side Lying", "Hip Mobility"],
-                notes: "2nd clip. Smooth, controlled articular rotations. Avoid lower back movement.",
+                tags: ["Hip Joints", "Joint Capsule"],
+                notes: "Lying flat on side, run complete controlled articular rotations of the hip socket. Block pelvic rotation completely.",
                 links: ["https://www.instagram.com/p/DTsmQBmiILo/?img_index=1&igsh=MWp1dGFmYjJrYzNwNQ=="]
             },
             {
                 id: 9,
                 name: "Side Lay - Heel Tap Knee Tap",
-                tags: ["Side Lying", "Internal/External Rotation"],
-                notes: "7th clip. Alternate knee and heel contact dynamically.",
+                tags: ["Hip Rotators", "Side Lying"],
+                notes: "Maintain side-lying posture. Rotate thigh bone actively to alternate hitting knee-to-knee and heel-to-heel coordinates.",
                 links: ["https://www.instagram.com/p/DTsmQBmiILo/?img_index=6&igsh=MWp1dGFmYjJrYzNwNQ=="]
             },
             {
                 id: 10,
                 name: "Table Top Hip Airplanes",
-                tags: ["Table Top", "Glutes", "Pelvic Control"],
-                notes: "1st clip. Pivot out wide from the hip joint, keeping spine aligned.",
+                tags: ["Glutes", "Pelvic Tilt", "Balance"],
+                notes: "On hands/knees, hinge, extend one leg, and dial your pelvis open and closed over the supporting weight-bearing hip capsule.",
                 links: ["https://www.instagram.com/p/DTsq_Z_CGhU/?igsh=cm52bngxcHkxOHpt"]
             },
             {
                 id: 11,
                 name: "90/90 Switches",
-                tags: ["90/90 Position", "Transition Flow"],
-                notes: "3rd clip. Transition smoothly between sides keeping heels anchored.",
+                tags: ["Hip Capsule", "Transitions"],
+                notes: "The golden mobility standard. Seamlessly transition the weight of the legs side-to-side keeping heels anchored hard to floor.",
                 links: ["https://www.instagram.com/p/DTVguRelScb/?img_index=2&igsh=bngyZHAxdDA4aDg4"]
             },
             {
                 id: 12,
                 name: "90/90 Hip Raise",
-                tags: ["90/90 Position", "Extension", "Glutes"],
-                notes: "5th exercise in this clip. Drive down through shins to raise hips tall.",
+                tags: ["Glutes", "Hip Extension"],
+                notes: "Sit in 90/90 posture. Drive knees and shins into the floor to extend hips forward and lift your torso to full extension.",
                 links: ["https://www.instagram.com/reel/DUQPdZfAem3/?igsh=MWZ0NHl0MDJ4MXd1aw=="]
             },
             {
                 id: 13,
                 name: "90/90 Can Openers",
-                tags: ["90/90 Position", "Thoracic Twist"],
-                notes: "4th clip. Rotate trunk out wide over your 90/90 base setup.",
+                tags: ["Thoracic Spine", "Hips"],
+                notes: "Rotate through the upper rib cage and thoracic spine, turning broad over your stabilized lower half 90/90 base layout.",
                 links: ["https://www.instagram.com/p/DTSfI8FiLz1/?img_index=3&igsh=enRzbDJ1bXpjOGRs"]
             },
             {
                 id: 14,
                 name: "Frog Stretch - Hip Rotator",
-                tags: ["Groin", "Deep Hip", "Prone"],
-                notes: "4th clip. Drop down into deep wide base frog stance and apply internal rotation.",
+                tags: ["Adductors", "Groin Stretch"],
+                notes: "Sink deep into a classic wide frog stretch position. Gently isolate internal rotations of individual hip sockets.",
                 links: ["https://www.instagram.com/p/DUUo5w-DMZK/?img_index=3&igsh=MWg1Z2MzeGd5OGN2ag=="]
             },
             {
                 id: 15,
                 name: "Half Kneel - Trunk Contour",
-                tags: ["Kneeling", "Thoracic Spine"],
-                notes: "1st clip. Isolate the upper/middle spine contour lines.",
+                tags: ["Kneeling", "Trunk Rotation"],
+                notes: "Settle into a rigid half kneeling base structure, then isolate fluid, deep spinal lateral curvature & thoracic contour paths.",
                 links: ["https://www.instagram.com/p/DTf3xZMldiS/?igsh=MW00cXJxamQwM3p2Zg=="]
             },
             {
                 id: 16,
                 name: "Nordic Kneel - Bridge",
-                tags: ["Quads", "Core Stability"],
-                notes: "Focus on rigid spine geometry from head to knees as you sit back.",
+                tags: ["Quads", "Anterior Chain"],
+                notes: "Kneel tall. Keep straight-line posture from head to knees. Slowly recline backward utilizing active eccentric quad load.",
                 links: ["https://www.instagram.com/reel/CxItu6BNxSS/?igsh=N3c4NTdseGtrbWN6"]
             },
             {
                 id: 17,
                 name: "Foot & Ankle Work (Calves)",
                 tags: ["Ankles", "Calves", "Plantar Line"],
-                notes: "Target multi-angle ankle dorsiflexion and calf loading setups.",
+                notes: "Dynamic mobilizations to break ankle restriction. Spend time targeting calf loading paths and toe extension values.",
                 links: ["https://www.instagram.com/reel/DRpJhNRiJ0D/?igsh=MTM3Z2t4N3FmOW1zbw=="]
             },
             {
                 id: 18,
                 name: "Table Twist - Hip Opener",
-                tags: ["Table Top", "Spinal Rotation", "Finisher"],
-                notes: "3rd clip. Use as an active decompression movement to complete the flow.",
+                tags: ["Spine Decompression", "Hips"],
+                notes: "Adopt a stable tabletop stance. Execute deep trunk twist routines to release spinal structures to close the workout.",
                 links: []
             }
         ];
 
-        let completedStretches = new Set();
-        let timerSeconds = 45;
+        // --- Persistent App State Initialization ---
+        let completedStretches = new Set(JSON.parse(localStorage.getItem('clays_mobility_done')) || []);
+        let loggedDates = JSON.parse(localStorage.getItem('clays_mobility_calendar')) || {}; // Format: {"YYYY-MM-DD": true}
+        
+        // Timer Variables
+        let baseTimerSeconds = parseInt(localStorage.getItem('clays_timer_secs')) || 45;
+        let timerSecondsLeft = baseTimerSeconds;
         let timerInterval = null;
         let isTimerRunning = false;
 
+        // Calendar display dates (default to today)
+        let currentCalendarDate = new Date();
+
+        // Initialize display timer input box value
+        document.getElementById('timer-input').value = baseTimerSeconds;
+
+        // --- Core Functions ---
+
+        // Render Cards List
         function renderGrid() {
             const grid = document.getElementById('stretch-grid');
             grid.innerHTML = '';
@@ -209,7 +313,7 @@
             stretches.forEach(stretch => {
                 const isDone = completedStretches.has(stretch.id);
                 let tagsHTML = stretch.tags.map(tag => 
-                    `<span class="text-[10px] bg-gray-800 text-gray-400 font-semibold uppercase tracking-wider px-2 py-1 rounded-md border border-gray-700/50">${tag}</span>`
+                    `<span class="text-[10px] bg-gray-800 text-gray-400 font-semibold uppercase tracking-wider px-2 py-1 rounded-md border border-gray-700/40">${tag}</span>`
                 ).join(' ');
 
                 let buttonsHTML = '';
@@ -217,27 +321,27 @@
                     stretch.links.forEach((link, idx) => {
                         const label = stretch.links.length > 1 ? `Watch Clip ${idx + 1}` : `Watch Clip`;
                         buttonsHTML += `
-                            <a href="${link}" target="_blank" class="text-xs bg-gray-800 hover:bg-emerald-500 hover:text-gray-950 text-gray-300 font-semibold px-3 py-2 rounded-lg inline-flex items-center gap-1.5 transition-all border border-gray-700/60 hover:border-emerald-400">
+                            <a href="${link}" target="_blank" class="text-xs bg-gray-900 hover:bg-emerald-500 hover:text-gray-950 text-gray-300 font-semibold px-3 py-2 rounded-lg inline-flex items-center gap-1.5 transition-all border border-gray-800 hover:border-emerald-400">
                                 <i class="fa-brands fa-instagram text-sm"></i> ${label}
                             </a>`;
                     });
                 } else {
-                    buttonsHTML = `<span class="text-xs text-gray-500 italic py-2"><i class="fa-solid fa-circle-info"></i> Routine Finisher</span>`;
+                    buttonsHTML = `<span class="text-xs text-gray-500 italic py-2"><i class="fa-solid fa-circle-info"></i> Table Top Finisher</span>`;
                 }
 
                 const cardHtml = `
-                    <div id="card-${stretch.id}" class="group relative bg-gray-950 border ${isDone ? 'border-emerald-500/50 bg-emerald-950/10' : 'border-gray-800'} rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 shadow-xl hover:-translate-y-1">
+                    <div id="card-${stretch.id}" class="group relative bg-gray-950 border ${isDone ? 'border-emerald-500/50 bg-emerald-950/10' : 'border-gray-900'} rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 shadow-xl">
                         <div>
                             <div class="flex justify-between items-start gap-2 mb-3">
                                 <div class="flex flex-wrap gap-1.5">${tagsHTML}</div>
-                                <button onclick="toggleComplete(${stretch.id})" class="text-lg transition-colors ${isDone ? 'text-emerald-400' : 'text-gray-600 hover:text-gray-400'}">
+                                <button onclick="toggleComplete(${stretch.id})" class="text-lg transition-colors ${isDone ? 'text-emerald-400' : 'text-gray-600 hover:text-gray-400'} p-1">
                                     <i class="${isDone ? 'fa-solid fa-circle-check' : 'fa-regular fa-circle'}"></i>
                                 </button>
                             </div>
-                            <h3 class="text-lg font-bold text-white tracking-tight group-hover:text-emerald-400 transition-colors mb-2">${stretch.name}</h3>
+                            <h3 class="text-base font-bold text-white tracking-tight group-hover:text-emerald-400 transition-colors mb-2">${stretch.name}</h3>
                             <p class="text-xs text-gray-400 leading-relaxed font-normal mb-6">${stretch.notes}</p>
                         </div>
-                        <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-900">
+                        <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-900/60">
                             ${buttonsHTML}
                         </div>
                     </div>
@@ -248,15 +352,23 @@
             updateProgress();
         }
 
+        // Toggle Single Stretch Completion State
         function toggleComplete(id) {
             if (completedStretches.has(id)) {
                 completedStretches.delete(id);
             } else {
                 completedStretches.add(id);
             }
+            saveState();
             renderGrid();
         }
 
+        // Save State to LocalStorage
+        function saveState() {
+            localStorage.setItem('clays_mobility_done', JSON.stringify(Array.from(completedStretches)));
+        }
+
+        // Calculate and display current set progress
         function updateProgress() {
             const count = completedStretches.size;
             const total = stretches.length;
@@ -266,27 +378,95 @@
             document.getElementById('progress-text').innerText = `${count}/${total}`;
         }
 
+        // Reset all stretch checklist states for a new session
+        function resetSession() {
+            if(confirm("Do you want to reset your stretch cards checklist? (This will not clear your calendar habit logs!)")) {
+                completedStretches.clear();
+                saveState();
+                renderGrid();
+            }
+        }
+
+        // --- Custom Timer Control System ---
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSecondsLeft / 60).toString().padStart(2, '0');
+            const seconds = (timerSecondsLeft % 60).toString().padStart(2, '0');
+            const formatted = `${minutes}:${seconds}`;
+            
+            // If timer is running, override display input with countdown formatting, otherwise show plain seconds input
+            if (isTimerRunning) {
+                document.getElementById('timer-input').type = 'text';
+                document.getElementById('timer-input').value = formatted;
+            } else {
+                document.getElementById('timer-input').type = 'number';
+                document.getElementById('timer-input').value = baseTimerSeconds;
+            }
+        }
+
+        // Handler for tapping timer adjustments (+15s / -15s)
+        function adjustTimer(amount) {
+            baseTimerSeconds = Math.max(5, baseTimerSeconds + amount);
+            localStorage.setItem('clays_timer_secs', baseTimerSeconds);
+            if (!isTimerRunning) {
+                timerSecondsLeft = baseTimerSeconds;
+            }
+            updateTimerDisplay();
+        }
+
+        // Manual text input updates for custom timer settings
+        function manualTimerChange(val) {
+            if (isTimerRunning) return; // Ignore input edits while clock ticking
+            let parsed = parseInt(val);
+            if (isNaN(parsed) || parsed < 1) parsed = 45;
+            baseTimerSeconds = parsed;
+            timerSecondsLeft = parsed;
+            localStorage.setItem('clays_timer_secs', baseTimerSeconds);
+            updateTimerDisplay();
+        }
+
         function toggleTimer() {
             const icon = document.getElementById('timer-icon');
+            const btnText = document.getElementById('timer-btn-text');
             const btn = document.getElementById('timer-btn');
             
             if (isTimerRunning) {
                 clearInterval(timerInterval);
                 icon.className = "fa-solid fa-play";
-                btn.className = "p-2 bg-emerald-500 hover:bg-emerald-400 text-gray-950 rounded-lg transition-colors text-sm font-bold";
+                btnText.innerText = "Start Set";
+                btn.className = "flex-1 py-3 bg-emerald-500 hover:bg-emerald-400 text-gray-950 font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/10 flex items-center justify-center gap-2 text-sm active:scale-[0.98]";
                 isTimerRunning = false;
+                updateTimerDisplay();
             } else {
                 isTimerRunning = true;
+                timerSecondsLeft = baseTimerSeconds; // Start fresh timer value
                 icon.className = "fa-solid fa-pause";
-                btn.className = "p-2 bg-amber-500 hover:bg-amber-400 text-gray-950 rounded-lg transition-colors text-sm font-bold";
+                btnText.innerText = "Pause Set";
+                btn.className = "flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 text-sm active:scale-[0.98]";
                 
+                updateTimerDisplay();
+
                 timerInterval = setInterval(() => {
-                    if (timerSeconds > 0) {
-                        timerSeconds--;
+                    if (timerSecondsLeft > 1) {
+                        timerSecondsLeft--;
                         updateTimerDisplay();
                     } else {
                         clearInterval(timerInterval);
-                        alert("Time's up! Switch legs or proceed to the next stretch.");
+                        // Complete alerts
+                        try {
+                            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                            const oscillator = audioCtx.createOscillator();
+                            const gainNode = audioCtx.createGain();
+                            oscillator.connect(gainNode);
+                            gainNode.connect(audioCtx.destination);
+                            oscillator.type = 'sine';
+                            oscillator.frequency.value = 600; 
+                            gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+                            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+                            oscillator.start(audioCtx.currentTime);
+                            oscillator.stop(audioCtx.currentTime + 0.6);
+                        } catch(e) {}
+                        
+                        alert("Set finished! Switch legs, switch positions, or proceed!");
                         resetTimer();
                     }
                 }, 1000);
@@ -296,19 +476,138 @@
         function resetTimer() {
             clearInterval(timerInterval);
             isTimerRunning = false;
-            timerSeconds = 45;
-            updateTimerDisplay();
+            timerSecondsLeft = baseTimerSeconds;
+            
+            // Revert state buttons back
             document.getElementById('timer-icon').className = "fa-solid fa-play";
-            document.getElementById('timer-btn').className = "p-2 bg-emerald-500 hover:bg-emerald-400 text-gray-950 rounded-lg transition-colors text-sm font-bold";
+            document.getElementById('timer-btn-text').innerText = "Start Set";
+            document.getElementById('timer-btn').className = "flex-1 py-3 bg-emerald-500 hover:bg-emerald-400 text-gray-950 font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/10 flex items-center justify-center gap-2 text-sm active:scale-[0.98]";
+            
+            updateTimerDisplay();
         }
 
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
-            const seconds = (timerSeconds % 60).toString().padStart(2, '0');
-            document.getElementById('timer-display').innerText = `${minutes}:${seconds}`;
+
+        // --- Calendar Habit System Mechanics ---
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+
+            // Set current title string: e.g. "June 2026"
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            document.getElementById('calendar-month-name').innerText = `${monthNames[month]} ${year}`;
+
+            // First day of target month index
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            // Total days in target month
+            const totalDays = new Date(year, month + 1, 0).getDate();
+
+            // Insert blank spaces for formatting calendar alignments
+            for(let i = 0; i < firstDayIndex; i++) {
+                grid.insertAdjacentHTML('beforeend', `<div class="p-1"></div>`);
+            }
+
+            // Generate date divs
+            const todayStr = getLocalDateString(new Date());
+
+            for(let day = 1; day <= totalDays; day++) {
+                const currentStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                const isCompleted = !!loggedDates[currentStr];
+                const isToday = currentStr === todayStr;
+
+                let classes = "h-8 flex items-center justify-center text-[11px] rounded-lg cursor-pointer transition-all active:scale-90 font-mono ";
+                if (isCompleted) {
+                    classes += "bg-emerald-500 text-gray-950 font-bold border border-emerald-400";
+                } else if (isToday) {
+                    classes += "bg-gray-800 text-emerald-400 border border-emerald-500/40 font-bold";
+                } else {
+                    classes += "bg-gray-900 hover:bg-gray-800 text-gray-400 border border-transparent";
+                }
+
+                grid.insertAdjacentHTML('beforeend', `
+                    <div class="${classes}" onclick="toggleDate('${currentStr}')" title="Log/Unlog session">
+                        ${day}
+                    </div>
+                `);
+            }
+
+            calculateStreaks();
         }
 
+        // Toggle calendar day state
+        function toggleDate(dateStr) {
+            if (loggedDates[dateStr]) {
+                delete loggedDates[dateStr];
+            } else {
+                loggedDates[dateStr] = true;
+            }
+            localStorage.setItem('clays_mobility_calendar', JSON.stringify(loggedDates));
+            renderCalendar();
+        }
+
+        // Fast manual one-click log for today
+        function logToday() {
+            const todayStr = getLocalDateString(new Date());
+            loggedDates[todayStr] = true;
+            localStorage.setItem('clays_mobility_calendar', JSON.stringify(loggedDates));
+            renderCalendar();
+        }
+
+        // Navigation controls for months
+        function changeMonth(direction) {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + direction);
+            renderCalendar();
+        }
+
+        // Help convert native Date structures to YYYY-MM-DD
+        function getLocalDateString(dateObj) {
+            const y = dateObj.getFullYear();
+            const m = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+            const d = dateObj.getDate().toString().padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        // Calculate and render current daily workout streak
+        function calculateStreaks() {
+            let streak = 0;
+            let checkDate = new Date();
+            
+            // Check consecutive yesterday and day before
+            while (true) {
+                const dateStr = getLocalDateString(checkDate);
+                if (loggedDates[dateStr]) {
+                    streak++;
+                    // Check previous day
+                    checkDate.setDate(checkDate.getDate() - 1);
+                } else {
+                    // Check if today hasn't been logged yet but yesterday WAS logged
+                    const todayStr = getLocalDateString(new Date());
+                    if (streak === 0 && dateStr === todayStr) {
+                        // Check if yesterday is logged to continue yesterday's active streak
+                        checkDate.setDate(checkDate.getDate() - 1);
+                        const yesterdayStr = getLocalDateString(checkDate);
+                        if (loggedDates[yesterdayStr]) {
+                            // Settle back to loop search on yesterday
+                            continue;
+                        }
+                    }
+                    break;
+                }
+            }
+            
+            document.getElementById('streak-count').innerText = `${streak} ${streak === 1 ? 'day' : 'days'}`;
+        }
+
+        // --- App Setup Initial Load ---
         renderGrid();
+        renderCalendar();
     </script>
 </body>
 </html>
+```eof
+
+Your updated **Clay's Mobility Routine** web application is ready! Go ahead and test the new customizable timer controls, try clicking on dates in your habit calendar to log sessions, and check off a few cards to see your automatic progress bar update. 
+
+Let me know if you would like me to adjust any of the target stretch names or if you want to add any other features!
