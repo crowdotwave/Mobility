@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Mobility Routine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1f2937; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans selection:bg-emerald-500 selection:text-white">
+
+    <header class="border-b border-gray-800 bg-gray-950 sticky top-0 z-50 backdrop-blur-md bg-opacity-80">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-emerald-500 rounded-lg text-gray-950 font-bold text-xl shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-dumbbell"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-black tracking-tight text-white">MOBILITY LAB</h1>
+                    <p class="text-xs text-gray-400">Your Daily Interactive Flow</p>
+                </div>
+            </div>
+            
+            <div id="timer-box" class="flex items-center gap-4 bg-gray-900 border border-gray-800 px-4 py-2 rounded-xl">
+                <div class="text-right">
+                    <p class="text-xs text-gray-400 font-medium">STRETCH TIMER</p>
+                    <p id="timer-display" class="text-lg font-mono font-bold text-emerald-400">00:45</p>
+                </div>
+                <div class="flex gap-2">
+                    <button id="timer-btn" onclick="toggleTimer()" class="p-2 bg-emerald-500 hover:bg-emerald-400 text-gray-950 rounded-lg transition-colors text-sm font-bold">
+                        <i id="timer-icon" class="fa-solid fa-play"></i>
+                    </button>
+                    <button onclick="resetTimer()" class="p-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition-colors text-sm">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        
+        <div class="mb-8 p-6 bg-gradient-to-r from-gray-950 to-gray-900 border border-gray-800 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h2 class="text-2xl font-bold text-white mb-1">Interactive Mobility Matrix</h2>
+                <p class="text-gray-400 text-sm max-w-xl">Click the cards to mark movements complete, tap <span class="text-emerald-400">Watch Clip</span> to study form, or use the top timer to pace your sets.</p>
+            </div>
+            <div class="bg-gray-900 border border-gray-800 p-3 rounded-xl flex items-center gap-3 self-stretch md:self-auto justify-center">
+                <span class="text-sm font-medium text-gray-300">Progress:</span>
+                <div class="w-32 bg-gray-800 rounded-full h-2.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-emerald-500 h-2.5 transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <span id="progress-text" class="text-xs font-mono text-emerald-400">0/18</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="stretch-grid">
+            </div>
+    </main>
+
+    <footer class="border-t border-gray-800 bg-gray-950 mt-20 py-6 text-center text-xs text-gray-500">
+        <p>Interactive Stretch Dashboard • Custom Routine Framework</p>
+    </footer>
+
+    <script>
+        const stretches = [
+            {
+                id: 1,
+                name: "World's Greatest Stretch (WGS) Combo",
+                tags: ["Full Body", "Hips", "Thoracic"],
+                notes: "First clip demonstrates base. Combine movements from both clips to optimize.",
+                links: ["https://www.instagram.com/reel/DUPy40dDLyr/?igsh=ZGM0ZjVmY240c2Jz", "https://www.instagram.com/p/DLAiNFsMvP_/?igsh=dGV2MHgxNmxwNWJu"]
+            },
+            {
+                id: 2,
+                name: "Lateral Kneeling Lunge",
+                tags: ["Adductors", "Kneeling"],
+                notes: "Combine this movement with a reach up toward the ceiling.",
+                links: ["https://www.instagram.com/p/DVWcDwngXW9/?igsh=MXFhbDR6Y2Z2bjRkNA=="]
+            },
+            {
+                id: 3,
+                name: "90/90 Heel Clicks",
+                tags: ["90/90 Position", "Hips", "Active"],
+                notes: "First clip of the sequence. Keep torso tall and stable.",
+                links: ["https://www.instagram.com/p/DTVguRelScb/?igsh=bngyZHAxdDA4aDg4"]
+            },
+            {
+                id: 4,
+                name: "Straight Leg Contour",
+                tags: ["Hamstrings", "Active Isolation"],
+                notes: "Second clip in the sequence. Focus on a smooth tracking line.",
+                links: ["https://www.instagram.com/p/DTVguRelScb/?img_index=1&igsh=bngyZHAxdDA4aDg4"]
+            },
+            {
+                id: 5,
+                name: "90/90 Internal Rotation (Heel Lift)",
+                tags: ["90/90 Position", "Internal Rotation"],
+                notes: "Second clip in this video. Keep opposite hip pinned to floor if possible.",
+                links: ["https://www.instagram.com/reel/DUh1GmwjJl9/?igsh=MWz0NHl0MDJ4MXd1aw=="]
+            },
+            {
+                id: 6,
+                name: "90/90 Extend Front & Back Leg",
+                tags: ["90/90 Position", "Knee Extension"],
+                notes: "First clip shows back leg extension. Perform same pattern with front leg.",
+                links: ["https://www.instagram.com/reel/DQU1OwHEWqi/?igsh=MWljZTg3OWJpbDVqcg=="]
+            },
+            {
+                id: 7,
+                name: "Single Leg Hip Hurdles",
+                tags: ["Hips", "Active Control"],
+                notes: "4th clip. Use a yoga block or a water bottle to hurdle over.",
+                links: ["https://www.instagram.com/p/DTsq_Z_CGhU/?img_index=3&igsh=cm52bngxcHkxOHpt"]
+            },
+            {
+                id: 8,
+                name: "Side Lay Hip CARs",
+                tags: ["Side Lying", "Hip Mobility"],
+                notes: "2nd clip. Smooth, controlled articular rotations. Avoid lower back movement.",
+                links: ["https://www.instagram.com/p/DTsmQBmiILo/?img_index=1&igsh=MWp1dGFmYjJrYzNwNQ=="]
+            },
+            {
+                id: 9,
+                name: "Side Lay - Heel Tap Knee Tap",
+                tags: ["Side Lying", "Internal/External Rotation"],
+                notes: "7th clip. Alternate knee and heel contact dynamically.",
+                links: ["https://www.instagram.com/p/DTsmQBmiILo/?img_index=6&igsh=MWp1dGFmYjJrYzNwNQ=="]
+            },
+            {
+                id: 10,
+                name: "Table Top Hip Airplanes",
+                tags: ["Table Top", "Glutes", "Pelvic Control"],
+                notes: "1st clip. Pivot out wide from the hip joint, keeping spine aligned.",
+                links: ["https://www.instagram.com/p/DTsq_Z_CGhU/?igsh=cm52bngxcHkxOHpt"]
+            },
+            {
+                id: 11,
+                name: "90/90 Switches",
+                tags: ["90/90 Position", "Transition Flow"],
+                notes: "3rd clip. Transition smoothly between sides keeping heels anchored.",
+                links: ["https://www.instagram.com/p/DTVguRelScb/?img_index=2&igsh=bngyZHAxdDA4aDg4"]
+            },
+            {
+                id: 12,
+                name: "90/90 Hip Raise",
+                tags: ["90/90 Position", "Extension", "Glutes"],
+                notes: "5th exercise in this clip. Drive down through shins to raise hips tall.",
+                links: ["https://www.instagram.com/reel/DUQPdZfAem3/?igsh=MWZ0NHl0MDJ4MXd1aw=="]
+            },
+            {
+                id: 13,
+                name: "90/90 Can Openers",
+                tags: ["90/90 Position", "Thoracic Twist"],
+                notes: "4th clip. Rotate trunk out wide over your 90/90 base setup.",
+                links: ["https://www.instagram.com/p/DTSfI8FiLz1/?img_index=3&igsh=enRzbDJ1bXpjOGRs"]
+            },
+            {
+                id: 14,
+                name: "Frog Stretch - Hip Rotator",
+                tags: ["Groin", "Deep Hip", "Prone"],
+                notes: "4th clip. Drop down into deep wide base frog stance and apply internal rotation.",
+                links: ["https://www.instagram.com/p/DUUo5w-DMZK/?img_index=3&igsh=MWg1Z2MzeGd5OGN2ag=="]
+            },
+            {
+                id: 15,
+                name: "Half Kneel - Trunk Contour",
+                tags: ["Kneeling", "Thoracic Spine"],
+                notes: "1st clip. Isolate the upper/middle spine contour lines.",
+                links: ["https://www.instagram.com/p/DTf3xZMldiS/?igsh=MW00cXJxamQwM3p2Zg=="]
+            },
+            {
+                id: 16,
+                name: "Nordic Kneel - Bridge",
+                tags: ["Quads", "Core Stability"],
+                notes: "Focus on rigid spine geometry from head to knees as you sit back.",
+                links: ["https://www.instagram.com/reel/CxItu6BNxSS/?igsh=N3c4NTdseGtrbWN6"]
+            },
+            {
+                id: 17,
+                name: "Foot & Ankle Work (Calves)",
+                tags: ["Ankles", "Calves", "Plantar Line"],
+                notes: "Target multi-angle ankle dorsiflexion and calf loading setups.",
+                links: ["https://www.instagram.com/reel/DRpJhNRiJ0D/?igsh=MTM3Z2t4N3FmOW1zbw=="]
+            },
+            {
+                id: 18,
+                name: "Table Twist - Hip Opener",
+                tags: ["Table Top", "Spinal Rotation", "Finisher"],
+                notes: "3rd clip. Use as an active decompression movement to complete the flow.",
+                links: []
+            }
+        ];
+
+        let completedStretches = new Set();
+        let timerSeconds = 45;
+        let timerInterval = null;
+        let isTimerRunning = false;
+
+        function renderGrid() {
+            const grid = document.getElementById('stretch-grid');
+            grid.innerHTML = '';
+
+            stretches.forEach(stretch => {
+                const isDone = completedStretches.has(stretch.id);
+                let tagsHTML = stretch.tags.map(tag => 
+                    `<span class="text-[10px] bg-gray-800 text-gray-400 font-semibold uppercase tracking-wider px-2 py-1 rounded-md border border-gray-700/50">${tag}</span>`
+                ).join(' ');
+
+                let buttonsHTML = '';
+                if(stretch.links.length > 0) {
+                    stretch.links.forEach((link, idx) => {
+                        const label = stretch.links.length > 1 ? `Watch Clip ${idx + 1}` : `Watch Clip`;
+                        buttonsHTML += `
+                            <a href="${link}" target="_blank" class="text-xs bg-gray-800 hover:bg-emerald-500 hover:text-gray-950 text-gray-300 font-semibold px-3 py-2 rounded-lg inline-flex items-center gap-1.5 transition-all border border-gray-700/60 hover:border-emerald-400">
+                                <i class="fa-brands fa-instagram text-sm"></i> ${label}
+                            </a>`;
+                    });
+                } else {
+                    buttonsHTML = `<span class="text-xs text-gray-500 italic py-2"><i class="fa-solid fa-circle-info"></i> Routine Finisher</span>`;
+                }
+
+                const cardHtml = `
+                    <div id="card-${stretch.id}" class="group relative bg-gray-950 border ${isDone ? 'border-emerald-500/50 bg-emerald-950/10' : 'border-gray-800'} rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 shadow-xl hover:-translate-y-1">
+                        <div>
+                            <div class="flex justify-between items-start gap-2 mb-3">
+                                <div class="flex flex-wrap gap-1.5">${tagsHTML}</div>
+                                <button onclick="toggleComplete(${stretch.id})" class="text-lg transition-colors ${isDone ? 'text-emerald-400' : 'text-gray-600 hover:text-gray-400'}">
+                                    <i class="${isDone ? 'fa-solid fa-circle-check' : 'fa-regular fa-circle'}"></i>
+                                </button>
+                            </div>
+                            <h3 class="text-lg font-bold text-white tracking-tight group-hover:text-emerald-400 transition-colors mb-2">${stretch.name}</h3>
+                            <p class="text-xs text-gray-400 leading-relaxed font-normal mb-6">${stretch.notes}</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-900">
+                            ${buttonsHTML}
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', cardHtml);
+            });
+
+            updateProgress();
+        }
+
+        function toggleComplete(id) {
+            if (completedStretches.has(id)) {
+                completedStretches.delete(id);
+            } else {
+                completedStretches.add(id);
+            }
+            renderGrid();
+        }
+
+        function updateProgress() {
+            const count = completedStretches.size;
+            const total = stretches.length;
+            const percentage = (count / total) * 100;
+            
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            document.getElementById('progress-text').innerText = `${count}/${total}`;
+        }
+
+        function toggleTimer() {
+            const icon = document.getElementById('timer-icon');
+            const btn = document.getElementById('timer-btn');
+            
+            if (isTimerRunning) {
+                clearInterval(timerInterval);
+                icon.className = "fa-solid fa-play";
+                btn.className = "p-2 bg-emerald-500 hover:bg-emerald-400 text-gray-950 rounded-lg transition-colors text-sm font-bold";
+                isTimerRunning = false;
+            } else {
+                isTimerRunning = true;
+                icon.className = "fa-solid fa-pause";
+                btn.className = "p-2 bg-amber-500 hover:bg-amber-400 text-gray-950 rounded-lg transition-colors text-sm font-bold";
+                
+                timerInterval = setInterval(() => {
+                    if (timerSeconds > 0) {
+                        timerSeconds--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        alert("Time's up! Switch legs or proceed to the next stretch.");
+                        resetTimer();
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            timerSeconds = 45;
+            updateTimerDisplay();
+            document.getElementById('timer-icon').className = "fa-solid fa-play";
+            document.getElementById('timer-btn').className = "p-2 bg-emerald-500 hover:bg-emerald-400 text-gray-950 rounded-lg transition-colors text-sm font-bold";
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+            const seconds = (timerSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('timer-display').innerText = `${minutes}:${seconds}`;
+        }
+
+        renderGrid();
+    </script>
+</body>
+</html>
