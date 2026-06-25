@@ -1,4 +1,3 @@
-title: Clay's Mobility Routine:index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -157,7 +156,6 @@ title: Clay's Mobility Routine:index.html
 
     <!-- Complete App Logic & State Persistence -->
     <script>
-        // Stretch Database
         const stretches = [
             {
                 id: 1,
@@ -287,25 +285,18 @@ title: Clay's Mobility Routine:index.html
             }
         ];
 
-        // --- Persistent App State Initialization ---
         let completedStretches = new Set(JSON.parse(localStorage.getItem('clays_mobility_done')) || []);
-        let loggedDates = JSON.parse(localStorage.getItem('clays_mobility_calendar')) || {}; // Format: {"YYYY-MM-DD": true}
+        let loggedDates = JSON.parse(localStorage.getItem('clays_mobility_calendar')) || {};
         
-        // Timer Variables
         let baseTimerSeconds = parseInt(localStorage.getItem('clays_timer_secs')) || 45;
         let timerSecondsLeft = baseTimerSeconds;
         let timerInterval = null;
         let isTimerRunning = false;
 
-        // Calendar display dates (default to today)
         let currentCalendarDate = new Date();
 
-        // Initialize display timer input box value
         document.getElementById('timer-input').value = baseTimerSeconds;
 
-        // --- Core Functions ---
-
-        // Render Cards List
         function renderGrid() {
             const grid = document.getElementById('stretch-grid');
             grid.innerHTML = '';
@@ -330,7 +321,7 @@ title: Clay's Mobility Routine:index.html
                 }
 
                 const cardHtml = `
-                    <div id="card-${stretch.id}" class="group relative bg-gray-950 border ${isDone ? 'border-emerald-500/50 bg-emerald-950/10' : 'border-gray-900'} rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 shadow-xl">
+                    <div id="card-${stretch.id}" class="group relative bg-gray-950 border ${isDone ? 'border-emerald-500/50 bg-emerald-950/10' : 'border-gray-800'} rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 shadow-xl">
                         <div>
                             <div class="flex justify-between items-start gap-2 mb-3">
                                 <div class="flex flex-wrap gap-1.5">${tagsHTML}</div>
@@ -352,7 +343,6 @@ title: Clay's Mobility Routine:index.html
             updateProgress();
         }
 
-        // Toggle Single Stretch Completion State
         function toggleComplete(id) {
             if (completedStretches.has(id)) {
                 completedStretches.delete(id);
@@ -363,12 +353,10 @@ title: Clay's Mobility Routine:index.html
             renderGrid();
         }
 
-        // Save State to LocalStorage
         function saveState() {
             localStorage.setItem('clays_mobility_done', JSON.stringify(Array.from(completedStretches)));
         }
 
-        // Calculate and display current set progress
         function updateProgress() {
             const count = completedStretches.size;
             const total = stretches.length;
@@ -378,7 +366,6 @@ title: Clay's Mobility Routine:index.html
             document.getElementById('progress-text').innerText = `${count}/${total}`;
         }
 
-        // Reset all stretch checklist states for a new session
         function resetSession() {
             if(confirm("Do you want to reset your stretch cards checklist? (This will not clear your calendar habit logs!)")) {
                 completedStretches.clear();
@@ -387,13 +374,11 @@ title: Clay's Mobility Routine:index.html
             }
         }
 
-        // --- Custom Timer Control System ---
         function updateTimerDisplay() {
             const minutes = Math.floor(timerSecondsLeft / 60).toString().padStart(2, '0');
             const seconds = (timerSecondsLeft % 60).toString().padStart(2, '0');
             const formatted = `${minutes}:${seconds}`;
             
-            // If timer is running, override display input with countdown formatting, otherwise show plain seconds input
             if (isTimerRunning) {
                 document.getElementById('timer-input').type = 'text';
                 document.getElementById('timer-input').value = formatted;
@@ -403,7 +388,6 @@ title: Clay's Mobility Routine:index.html
             }
         }
 
-        // Handler for tapping timer adjustments (+15s / -15s)
         function adjustTimer(amount) {
             baseTimerSeconds = Math.max(5, baseTimerSeconds + amount);
             localStorage.setItem('clays_timer_secs', baseTimerSeconds);
@@ -413,9 +397,8 @@ title: Clay's Mobility Routine:index.html
             updateTimerDisplay();
         }
 
-        // Manual text input updates for custom timer settings
         function manualTimerChange(val) {
-            if (isTimerRunning) return; // Ignore input edits while clock ticking
+            if (isTimerRunning) return;
             let parsed = parseInt(val);
             if (isNaN(parsed) || parsed < 1) parsed = 45;
             baseTimerSeconds = parsed;
@@ -438,7 +421,7 @@ title: Clay's Mobility Routine:index.html
                 updateTimerDisplay();
             } else {
                 isTimerRunning = true;
-                timerSecondsLeft = baseTimerSeconds; // Start fresh timer value
+                timerSecondsLeft = baseTimerSeconds;
                 icon.className = "fa-solid fa-pause";
                 btnText.innerText = "Pause Set";
                 btn.className = "flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 text-sm active:scale-[0.98]";
@@ -451,7 +434,6 @@ title: Clay's Mobility Routine:index.html
                         updateTimerDisplay();
                     } else {
                         clearInterval(timerInterval);
-                        // Complete alerts
                         try {
                             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                             const oscillator = audioCtx.createOscillator();
@@ -478,7 +460,6 @@ title: Clay's Mobility Routine:index.html
             isTimerRunning = false;
             timerSecondsLeft = baseTimerSeconds;
             
-            // Revert state buttons back
             document.getElementById('timer-icon').className = "fa-solid fa-play";
             document.getElementById('timer-btn-text').innerText = "Start Set";
             document.getElementById('timer-btn').className = "flex-1 py-3 bg-emerald-500 hover:bg-emerald-400 text-gray-950 font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/10 flex items-center justify-center gap-2 text-sm active:scale-[0.98]";
@@ -486,8 +467,6 @@ title: Clay's Mobility Routine:index.html
             updateTimerDisplay();
         }
 
-
-        // --- Calendar Habit System Mechanics ---
         function renderCalendar() {
             const grid = document.getElementById('calendar-grid');
             grid.innerHTML = '';
@@ -495,21 +474,16 @@ title: Clay's Mobility Routine:index.html
             const year = currentCalendarDate.getFullYear();
             const month = currentCalendarDate.getMonth();
 
-            // Set current title string: e.g. "June 2026"
             const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             document.getElementById('calendar-month-name').innerText = `${monthNames[month]} ${year}`;
 
-            // First day of target month index
             const firstDayIndex = new Date(year, month, 1).getDay();
-            // Total days in target month
             const totalDays = new Date(year, month + 1, 0).getDate();
 
-            // Insert blank spaces for formatting calendar alignments
             for(let i = 0; i < firstDayIndex; i++) {
                 grid.insertAdjacentHTML('beforeend', `<div class="p-1"></div>`);
             }
 
-            // Generate date divs
             const todayStr = getLocalDateString(new Date());
 
             for(let day = 1; day <= totalDays; day++) {
@@ -536,7 +510,6 @@ title: Clay's Mobility Routine:index.html
             calculateStreaks();
         }
 
-        // Toggle calendar day state
         function toggleDate(dateStr) {
             if (loggedDates[dateStr]) {
                 delete loggedDates[dateStr];
@@ -547,7 +520,6 @@ title: Clay's Mobility Routine:index.html
             renderCalendar();
         }
 
-        // Fast manual one-click log for today
         function logToday() {
             const todayStr = getLocalDateString(new Date());
             loggedDates[todayStr] = true;
@@ -555,13 +527,12 @@ title: Clay's Mobility Routine:index.html
             renderCalendar();
         }
 
-        // Navigation controls for months
         function changeMonth(direction) {
             currentCalendarDate.setMonth(currentCalendarDate.getMonth() + direction);
             renderCalendar();
         }
 
-        // Help convert native Date structures to YYYY-MM-DD
+        // Help convert native Date structures to YYYY-MM-DD safely handling timezones
         function getLocalDateString(dateObj) {
             const y = dateObj.getFullYear();
             const m = (dateObj.getMonth() + 1).toString().padStart(2, '0');
@@ -569,27 +540,21 @@ title: Clay's Mobility Routine:index.html
             return `${y}-${m}-${d}`;
         }
 
-        // Calculate and render current daily workout streak
         function calculateStreaks() {
             let streak = 0;
             let checkDate = new Date();
             
-            // Check consecutive yesterday and day before
             while (true) {
                 const dateStr = getLocalDateString(checkDate);
                 if (loggedDates[dateStr]) {
                     streak++;
-                    // Check previous day
                     checkDate.setDate(checkDate.getDate() - 1);
                 } else {
-                    // Check if today hasn't been logged yet but yesterday WAS logged
                     const todayStr = getLocalDateString(new Date());
                     if (streak === 0 && dateStr === todayStr) {
-                        // Check if yesterday is logged to continue yesterday's active streak
                         checkDate.setDate(checkDate.getDate() - 1);
                         const yesterdayStr = getLocalDateString(checkDate);
                         if (loggedDates[yesterdayStr]) {
-                            // Settle back to loop search on yesterday
                             continue;
                         }
                     }
@@ -600,14 +565,8 @@ title: Clay's Mobility Routine:index.html
             document.getElementById('streak-count').innerText = `${streak} ${streak === 1 ? 'day' : 'days'}`;
         }
 
-        // --- App Setup Initial Load ---
         renderGrid();
         renderCalendar();
     </script>
 </body>
 </html>
-```eof
-
-Your updated **Clay's Mobility Routine** web application is ready! Go ahead and test the new customizable timer controls, try clicking on dates in your habit calendar to log sessions, and check off a few cards to see your automatic progress bar update. 
-
-Let me know if you would like me to adjust any of the target stretch names or if you want to add any other features!
